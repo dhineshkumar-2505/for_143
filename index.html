@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a0a2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="For Sindhu">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="assets/ui/icon-192.png">
+
+    <title>For My Sindhu</title>
+
+    <!-- GSAP Animation Engine -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="valentine-popup.css">
+</head>
+
+<body>
+
+    <!-- Main Experience Container -->
+    <div id="experience">
+
+        <!-- Black Splash Screen (Opening) -->
+        <div id="splash-screen" class="active">
+            <div id="splash-text"></div>
+            <button id="start-btn" class="hidden">Start</button>
+        </div>
+
+        <!-- Global Particle Canvas -->
+        <canvas id="particle-canvas"></canvas>
+
+        <!-- Global Text Overlay -->
+        <div id="text-overlay"></div>
+
+        <!-- SCENE 1: GARDEN -->
+        <div id="scene-garden" class="scene">
+            <div class="layer" data-depth="0.1" data-image="garden_01"></div>
+            <div class="layer" data-depth="0.3" data-image="garden_02"></div>
+            <div class="layer" data-depth="0.5" data-image="garden_03"></div>
+            <div class="layer" data-depth="0.7" data-image="garden_04"></div>
+            <div class="layer" data-depth="0.9" data-image="garden_05"></div>
+            <!-- Tap zones for stepping stones -->
+            <div id="garden-tap-zone"></div>
+        </div>
+
+        <!-- SCENE 2: BEACH -->
+        <div id="scene-beach" class="scene">
+            <div class="layer" data-depth="0.1" data-image="beach_01"></div>
+            <div class="layer" data-depth="0.3" data-image="beach_02"></div>
+            <div class="layer" data-depth="0.5" data-image="beach_03"></div>
+            <div class="layer" data-depth="0.7" data-image="beach_04"></div>
+            <div class="layer" data-depth="0.9" data-image="beach_05"></div>
+            <!-- Interactive bottle -->
+            <div id="bottle" class="interactive hidden">🍾</div>
+            <div id="bottle-message" class="message-popup hidden">
+                <p>You are my calm place.</p>
+            </div>
+        </div>
+
+        <!-- SCENE 3: CAFÉ -->
+        <div id="scene-cafe" class="scene">
+            <div class="layer" data-depth="0.1" data-image="cafe_01"></div>
+            <div class="layer" data-depth="0.3" data-image="cafe_02"></div>
+            <div class="layer" data-depth="0.5" data-image="cafe_03"></div>
+            <div class="layer" data-depth="0.7" data-image="cafe_04"></div>
+            <!-- Easter egg napkin -->
+            <div id="napkin" class="easter-egg">I love you Sindhu</div>
+            <!-- Voice note button -->
+            <button id="voice-btn" class="interactive hidden">
+                <span>▶</span> Listen to me
+            </button>
+        </div>
+
+        <!-- SCENE 4: TAJ MAHAL -->
+        <div id="scene-taj" class="scene">
+            <div class="layer" data-depth="0.1" data-image="taj_01"></div>
+            <div class="layer" data-depth="0.3" data-image="taj_02"></div>
+            <div class="layer" data-depth="0.5" data-image="taj_03"></div>
+            <div class="layer" data-depth="0.7" data-image="taj_04"></div>
+            <!-- Ring box container -->
+            <div id="ring-box" class="hidden"></div>
+            <!-- Choice buttons -->
+            <div id="choice-buttons" class="hidden">
+                <button class="choice-btn" data-choice="stay">Stay with me</button>
+                <button class="choice-btn" data-choice="slow">Let's go slowly</button>
+            </div>
+        </div>
+
+        <!-- SCENE 5: HILLTOP -->
+        <div id="scene-hill" class="scene">
+            <div class="layer" data-depth="0.1" data-image="hill_01"></div>
+            <div class="layer" data-depth="0.3" data-image="hill_02"></div>
+            <div class="layer" data-depth="0.5" data-image="hill_03"></div>
+            <div class="layer" data-depth="0.7" data-image="hill_04"></div>
+            <!-- Countdown -->
+            <div id="countdown" class="hidden">3</div>
+            <!-- Birthday cake with candles -->
+            <div id="cake" class="hidden">
+                <div class="candle" data-id="1"></div>
+                <div class="candle" data-id="2"></div>
+                <div class="candle" data-id="3"></div>
+                <div class="candle" data-id="4"></div>
+                <div class="candle" data-id="5"></div>
+            </div>
+            <!-- Birthday message -->
+            <div id="birthday-message" class="hidden">
+                Advance Happy Birthday Sindhu ❤️
+            </div>
+        </div>
+
+        <!-- FINAL LETTER -->
+        <div id="final-letter" class="hidden">
+            <div id="envelope">📧</div>
+            <div id="letter-content" class="hidden">
+                <p>My Dearest,</p>
+                <p>I couldn't give you a perfect world… so I built you a small one.</p>
+                <p>Every moment here… I meant it.</p>
+                <p>Thank you for being in my life.</p>
+                <p class="signature">Forever Yours</p>
+                <p class="end-text">The End</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Orientation hint for phones/tablets -->
+    <div id="orientation-warning">
+        <div class="orientation-card">
+            <p>For the best experience, please rotate your device to landscape.</p>
+        </div>
+    </div>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(reg => console.log('[PWA] Service Worker registered:', reg.scope))
+                    .catch(err => console.error('[PWA] Service Worker registration failed:', err));
+            });
+        }
+
+        // Auto-hide Chrome address bar on mobile
+        window.addEventListener('load', () => {
+            // Scroll down 1px to hide address bar, then scroll back
+            setTimeout(() => {
+                window.scrollTo(0, 1);
+                setTimeout(() => window.scrollTo(0, 0), 0);
+            }, 100);
+        });
+
+        // Re-hide address bar when user returns to the app
+        window.addEventListener('focus', () => {
+            setTimeout(() => {
+                window.scrollTo(0, 1);
+                setTimeout(() => window.scrollTo(0, 0), 0);
+            }, 100);
+        });
+    </script>
+
+    <!-- JavaScript Modules -->
+    <script src="js/pwaInstall.js"></script>
+    <script type="module" src="js/main.js"></script>
+
+</body>
+
+</html>

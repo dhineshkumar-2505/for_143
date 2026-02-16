@@ -1,0 +1,1147 @@
+/* ===================================
+   ONE NIGHT WITH YOU - STYLE.CSS
+   GPU-Accelerated Cinematic Experience
+   =================================== */
+
+/* === RESET & BASE === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    /* Use dynamic viewport height to account for mobile address bars */
+    min-height: 100vh;
+    min-height: 100dvh;
+    /* Dynamic viewport height (newer browsers) */
+    overflow: hidden;
+    /* No scrolling */
+    font-family: 'Georgia', serif;
+    background: #000;
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Safe area insets for notched devices */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    /* Prevent pull-to-refresh and overscroll */
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* === EXPERIENCE CONTAINER === */
+#experience {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    /* Dynamic viewport height */
+    overflow: hidden;
+    /* Ensure full coverage on mobile */
+    min-height: -webkit-fill-available;
+}
+
+/* === ORIENTATION WARNING OVERLAY (mobile/tablet) === */
+#orientation-warning {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 10000;
+    text-align: center;
+}
+
+#orientation-warning .orientation-card {
+    max-width: 480px;
+    padding: 1.8rem 2.4rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.9);
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    backdrop-filter: blur(18px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* === SPLASH SCREEN === */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+#splash-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#splash-text {
+    font-size: 1.8rem;
+    text-align: center;
+    padding: 0 2rem;
+    line-height: 1.6;
+    opacity: 0;
+    will-change: opacity;
+}
+
+#start-btn {
+    margin-top: 3rem;
+    padding: 12px 40px;
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s ease;
+    will-change: transform, opacity;
+    backdrop-filter: blur(10px);
+    transform: scale(0.9);
+}
+
+#start-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+/* Continue Button */
+.continue-btn {
+    position: fixed;
+    bottom: 60px;
+    right: 60px;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(15px);
+    opacity: 0;
+    transform: scale(0.9);
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.continue-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: scale(1.05);
+    box-shadow: 0 6px 30px rgba(255, 255, 255, 0.2);
+}
+
+#start-btn.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* === PARTICLE CANVAS === */
+#particle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    pointer-events: none;
+}
+
+/* === TEXT OVERLAY === */
+#text-overlay {
+    position: fixed;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 20px 40px;
+    max-width: 90%;
+    opacity: 0;
+    will-change: opacity, transform;
+
+    /* Better visibility on beach images */
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.65);
+    border-radius: 15px;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    /* Enhanced text shadow */
+    text-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+/* === SCENE CONTAINERS === */
+.scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity;
+}
+
+.scene.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* === PARALLAX LAYERS === */
+.layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    will-change: transform;
+    /* GPU acceleration */
+    /* Ensure layers fill entire viewport - NO BLACK BARS */
+    min-width: 100%;
+    min-height: 100%;
+}
+
+/* Mobile: Ensure FULL coverage without black bars */
+@media (max-width: 900px) {
+    .layer {
+        /* Force cover to fill entire viewport */
+        background-size: cover !important;
+        background-position: center center !important;
+        background-color: #000;
+        /* Stretch to fill if needed */
+        min-width: 100vw;
+        min-height: 100vh;
+        min-height: 100dvh;
+        /* Force layers to be at least viewport size */
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        /* Use transform as backup to ensure coverage */
+        transform-origin: center center;
+    }
+
+    /* Force scenes to fill viewport */
+    .scene {
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        min-width: 100vw;
+        min-height: 100vh;
+        min-height: 100dvh;
+    }
+
+    /* Ensure safe areas on notched devices */
+    #experience {
+        padding: 0;
+        /* Remove padding on mobile for true fullscreen */
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+    }
+
+    /* Adjust text overlay for better mobile visibility */
+    #text-overlay {
+        bottom: 18%;
+        font-size: 1.3rem;
+        padding: 18px 28px;
+        max-width: 88%;
+    }
+}
+
+/* Layer depth classes for parallax */
+.layer[data-depth="0.1"] {
+    z-index: 1;
+}
+
+.layer[data-depth="0.3"] {
+    z-index: 2;
+}
+
+.layer[data-depth="0.5"] {
+    z-index: 3;
+}
+
+.layer[data-depth="0.7"] {
+    z-index: 4;
+}
+
+.layer[data-depth="0.9"] {
+    z-index: 5;
+}
+
+/* === INTERACTIVE ELEMENTS === */
+.interactive {
+    position: absolute;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    will-change: transform;
+    z-index: 50;
+}
+
+.interactive:hover {
+    transform: scale(1.1);
+}
+
+.interactive.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* === GARDEN SCENE === */
+#garden-tap-zone {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 30%;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* === BEACH SCENE === */
+#bottle {
+    bottom: 30%;
+    left: -100px;
+    font-size: 3rem;
+    z-index: 20;
+}
+
+.message-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 2rem 3rem;
+    border-radius: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+    z-index: 300;
+    opacity: 0;
+    will-change: opacity, transform;
+}
+
+.message-popup.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Mobile: Smaller message popup and bottle */
+@media (max-width: 768px) {
+    #bottle {
+        font-size: 2.5rem;
+    }
+
+    .message-popup {
+        padding: 1.5rem 2rem;
+        font-size: 1.2rem;
+        max-width: 85%;
+    }
+}
+
+/* === CAFÉ SCENE === */
+#napkin {
+    position: absolute;
+    bottom: 40%;
+    right: 30%;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    padding: 1.5rem 2.5rem;
+    border-radius: 2px 2px 15px 2px;
+    font-family: 'Brush Script MT', cursive;
+    font-size: 1.8rem;
+    transform: rotate(-3deg);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 30;
+    opacity: 0;
+    will-change: opacity, transform;
+}
+
+/* Mobile: Smaller napkin */
+@media (max-width: 768px) {
+    #napkin {
+        font-size: 1.4rem;
+        padding: 1rem 1.5rem;
+        right: 20%;
+        bottom: 35%;
+    }
+}
+
+#radio-player {
+    position: fixed;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    background: rgba(20, 20, 20, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 20px;
+    backdrop-filter: blur(15px);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    opacity: 0;
+    will-change: opacity, transform;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.voice-toggle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+.voice-toggle:hover {
+    background: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 0 16px rgba(255, 255, 255, 0.15);
+}
+
+.player-timeline {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    opacity: 0.85;
+}
+
+#voice-seek {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+}
+
+#voice-seek::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+}
+
+#voice-seek::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+}
+
+.player-title {
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+#voice-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+#voice-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.player-hint {
+    font-size: 0.8rem;
+    opacity: 0.6;
+    font-style: italic;
+}
+
+#replay-btn {
+    margin-top: 10px;
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 30px;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+#replay-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+#next-place-btn {
+    margin-top: 20px;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+#next-place-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(20px) scale(1.05);
+    /* keep Y transform */
+}
+
+/* === TAJ MAHAL SCENE === */
+#ring-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.3), transparent);
+    z-index: 50;
+}
+
+#choice-buttons {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 2rem;
+    z-index: 60;
+}
+
+.choice-btn {
+    padding: 1.2rem 2.5rem;
+    font-size: 1.2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    will-change: transform;
+}
+
+.choice-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+/* Mobile: Larger choice buttons for touch */
+@media (max-width: 768px) {
+    .choice-btn {
+        padding: 1rem 2rem;
+        font-size: 1.05rem;
+        min-width: 160px;
+    }
+}
+
+/* === HILLTOP SCENE === */
+#countdown {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5rem;
+    font-weight: bold;
+    z-index: 70;
+    opacity: 0;
+    will-change: opacity, transform;
+}
+
+#cake {
+    position: absolute;
+    bottom: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 150px;
+    background: rgba(255, 182, 193, 0.3);
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding-top: 1rem;
+    z-index: 80;
+    opacity: 0;
+    will-change: opacity;
+}
+
+/* Mobile: Smaller cake */
+@media (max-width: 768px) {
+    #cake {
+        width: 150px;
+        height: 120px;
+        bottom: 25%;
+    }
+
+    #countdown {
+        font-size: 3.5rem;
+    }
+}
+
+/* Legacy static cake candles (HTML #cake) */
+#cake .candle {
+    width: 10px;
+    height: 60px;
+    background: linear-gradient(to bottom, #fff 0%, #ffeb3b 20%, #ff9800 100%);
+    border-radius: 5px;
+    position: relative;
+    opacity: 0;
+    will-change: opacity;
+}
+
+#cake .candle::before {
+    content: '🔥';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.2rem;
+    opacity: 0;
+}
+
+#cake .candle.lit::before {
+    opacity: 1;
+}
+
+#birthday-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.5rem;
+    text-align: center;
+    z-index: 90;
+    opacity: 0;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    will-change: opacity, transform;
+}
+
+/* === FINAL LETTER === */
+#final-letter {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    will-change: opacity;
+}
+
+#final-letter.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#envelope {
+    font-size: 5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    will-change: transform;
+}
+
+#envelope:hover {
+    transform: scale(1.1);
+}
+
+#letter-content {
+    max-width: 600px;
+    padding: 3rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    font-size: 1.3rem;
+    line-height: 1.8;
+    text-align: center;
+    opacity: 0;
+    will-change: opacity;
+}
+
+#letter-content.hidden {
+    opacity: 0;
+}
+
+#letter-content p {
+    margin-bottom: 1.5rem;
+}
+
+.signature {
+    font-style: italic;
+    margin-top: 2rem;
+}
+
+.end-text {
+    font-size: 1.8rem;
+    margin-top: 3rem;
+    opacity: 0.7;
+}
+
+/* === VALENTINE WISH OVERLAY === */
+#valentine-wish {
+    position: fixed;
+    bottom: 34%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 32px;
+    font-size: 1.4rem;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.96);
+    text-align: center;
+    border-radius: 999px;
+    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4));
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.8);
+    text-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(0, 0, 0, 0.7);
+    z-index: 1200;
+    opacity: 0;
+    will-change: opacity, transform;
+}
+
+/* Mobile: Smaller Valentine wish */
+@media (max-width: 768px) {
+    #valentine-wish {
+        font-size: 1.1rem;
+        padding: 10px 24px;
+        bottom: 28%;
+    }
+}
+
+/* === UTILITY CLASSES === */
+.hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* === MOBILE RESPONSIVENESS === */
+@media (max-width: 768px) {
+    #splash-text {
+        font-size: 1.6rem;
+        padding: 0 1.5rem;
+    }
+
+    #start-btn {
+        font-size: 1.1rem;
+        padding: 1rem 2.5rem;
+    }
+
+    #text-overlay {
+        font-size: 1.4rem;
+        padding: 20px 30px;
+        bottom: 22%;
+    }
+
+    #birthday-message {
+        font-size: 2rem;
+    }
+
+    #letter-content {
+        font-size: 1.2rem;
+        padding: 2.5rem;
+    }
+}
+
+/* === VERY SMALL PHONES (< 400px) === */
+@media (max-width: 400px) {
+    #splash-text {
+        font-size: 1.3rem;
+        padding: 0 1rem;
+    }
+
+    #text-overlay {
+        font-size: 1.2rem;
+        padding: 18px 25px;
+        bottom: 18%;
+    }
+
+    #birthday-message {
+        font-size: 1.6rem;
+        padding: 0 1rem;
+    }
+
+    #letter-content {
+        font-size: 1.05rem;
+        padding: 2rem 1.5rem;
+        max-width: 95%;
+    }
+
+    .continue-btn {
+        padding: 14px 32px;
+        font-size: 1rem;
+    }
+
+    #radio-player {
+        width: 95%;
+        padding: 16px;
+    }
+
+    #valentine-wish {
+        font-size: 1.2rem;
+        padding: 12px 26px;
+    }
+}
+
+/* === SMALL SCREENS - LANDSCAPE OPTIMIZATION === */
+@media (max-width: 900px) and (orientation: landscape) {
+    #text-overlay {
+        font-size: 1.1rem;
+        padding: 14px 24px;
+        max-width: 85%;
+    }
+
+    .continue-btn {
+        bottom: 24px;
+        right: 24px;
+        padding: 10px 26px;
+        font-size: 0.95rem;
+    }
+
+    #radio-player {
+        bottom: 6%;
+        width: 94%;
+        max-width: 360px;
+    }
+
+    #birthday-message {
+        font-size: 2rem;
+        padding: 0 1rem;
+    }
+
+    #letter-content {
+        max-width: 90%;
+        padding: 2rem;
+        font-size: 1.05rem;
+    }
+
+    /* Hilltop cake scaling so it never clips on short viewports */
+    #birthday-cake {
+        bottom: 14% !important;
+        transform: translateX(-50%) scale(0.85) !important;
+    }
+}
+
+/* === MOBILE - PORTRAIT MODE SUPPORT === */
+/* Removed orientation lock - app now works in both portrait and landscape */
+@media (max-width: 900px) and (orientation: portrait) {
+
+    /* Allow portrait mode - no warning needed */
+    #text-overlay {
+        bottom: 25%;
+        font-size: 1.1rem;
+        max-width: 90%;
+    }
+
+    .continue-btn {
+        bottom: 10%;
+        right: 50%;
+        transform: translateX(50%);
+    }
+}
+
+/* =================================================================
+   TAJ MAHAL SCENE - IMAGE DISPLAY
+   ================================================================= */
+
+#taj .layer {
+    background-size: cover !important;
+    background-position: center top !important;
+    background-repeat: no-repeat !important;
+}
+
+/* =================================================================
+   TAJ MAHAL SCENE - PREMIUM RING ANIMATION
+   ================================================================= */
+
+#ring-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.ring-box {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    background: linear-gradient(145deg,
+            rgba(139, 69, 19, 0.5),
+            rgba(101, 67, 33, 0.4),
+            rgba(160, 82, 45, 0.5));
+    border: 3px solid rgba(255, 215, 0, 0.4);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.6),
+        inset 0 3px 8px rgba(255, 215, 0, 0.15),
+        0 0 40px rgba(255, 215, 0, 0.2);
+    backdrop-filter: blur(15px);
+    transform-style: preserve-3d;
+}
+
+/* Mobile: Smaller ring box */
+@media (max-width: 768px) {
+    .ring-box {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+.ring-box::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg,
+            transparent,
+            rgba(255, 215, 0, 0.3),
+            transparent);
+    border-radius: 12px;
+    animation: shimmer 3s linear infinite;
+    z-index: -1;
+}
+
+@keyframes shimmer {
+
+    0%,
+    100% {
+        transform: translateX(-100%) rotate(0deg);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateX(100%) rotate(180deg);
+        opacity: 1;
+    }
+}
+
+.ring {
+    width: 70px;
+    height: 70px;
+    border: 5px solid #FFD700;
+    border-radius: 50%;
+    position: relative;
+    box-shadow:
+        0 0 25px rgba(255, 215, 0, 0.7),
+        0 0 50px rgba(255, 215, 0, 0.5),
+        inset 0 0 15px rgba(255, 215, 0, 0.3);
+    background: radial-gradient(circle,
+            rgba(255, 215, 0, 0.1),
+            transparent);
+}
+
+/* Diamond on top of ring */
+.ring::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 25px solid #FFD700;
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.9)) drop-shadow(0 0 25px rgba(255, 215, 0, 0.6));
+    animation: diamondSparkle 2s ease-in-out infinite;
+}
+
+/* Diamond base (creates 3D effect) */
+.ring::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 15px solid rgba(255, 200, 0, 0.9);
+    filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.4));
+}
+
+@keyframes diamondSparkle {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.9)) drop-shadow(0 0 25px rgba(255, 215, 0, 0.6));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 25px rgba(255, 255, 255, 1)) drop-shadow(0 0 40px rgba(255, 215, 0, 0.9)) drop-shadow(0 0 60px rgba(255, 215, 0, 0.7));
+    }
+}
+
+/* Particle sparkles around ring */
+.ring-box::after {
+    content: '✨ ✨ ✨ ✨';
+    position: absolute;
+    inset: -30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 1.2rem;
+    animation: particleFloat 4s ease-in-out infinite;
+    opacity: 0.8;
+}
+
+@keyframes particleFloat {
+
+    0%,
+    100% {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.2);
+        opacity: 1;
+    }
+}
+
+/* =================================================================
+   CANDLE FLAME FLICKER ANIMATION
+   ================================================================= */
+
+@keyframes flicker {
+
+    0%,
+    100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(0.95) translateY(-2px);
+        opacity: 0.9;
+    }
+}
+
+/* =================================================================
+   REALISTIC CANDLE FLAME ANIMATIONS
+   ================================================================= */
+
+@keyframes realistic-flicker {
+
+    0%,
+    100% {
+        transform: translateX(-50%) scaleY(1) scaleX(1);
+        opacity: 1;
+    }
+
+    25% {
+        transform: translateX(-48%) scaleY(1.05) scaleX(0.95);
+        opacity: 0.95;
+    }
+
+    50% {
+        transform: translateX(-52%) scaleY(0.98) scaleX(1.03);
+        opacity: 0.92;
+    }
+
+    75% {
+        transform: translateX(-50%) scaleY(1.02) scaleX(0.98);
+        opacity: 0.97;
+    }
+}
+
+@keyframes glow-pulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translateX(-50%) scale(1.1);
+    }
+}
